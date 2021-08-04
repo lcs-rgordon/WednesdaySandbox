@@ -27,7 +27,11 @@ struct ContentView: View {
             List(filteredData, id: \.self) { item in
                 Text(item)
             }
-            .searchable(text: $search, prompt: "Filter results")
+            .searchable(text: $search, prompt: "Filter results") {
+                ForEach(filteredData, id: \.self) { item in
+                    Text("Select \(item)").searchCompletion(item) // .searchCompletion adds whatever you pass in when the user taps
+                }
+            }
             .navigationTitle("Search example")
         }
     }
