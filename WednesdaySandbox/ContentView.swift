@@ -26,6 +26,14 @@ struct ContentView: View {
         NavigationView {
             List(filteredData, id: \.self) { item in
                 Text(item)
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        Button {
+                            print("\(item) is a favourite")
+                        } label: {
+                            Label("Favourite", systemImage: "star")
+                        }
+                        .tint(.mint)
+                    }
             }
             .searchable(text: $search, prompt: "Filter results") {
                 ForEach(filteredData, id: \.self) { item in
