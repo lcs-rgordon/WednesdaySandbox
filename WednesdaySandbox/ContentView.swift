@@ -9,19 +9,39 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var phoneNumber = ""
+    enum Field {
+        case firstName
+        case lastName
+    }
     
-    @FocusState private var numberIsFocused: Bool
+    @State private var firstName = ""
+    @State private var lastName = ""
     
+    // Might first name, might be last name, might be neither (nil)
+    @FocusState private var focusedField: Field?
+
     var body: some View {
-        TextField("Enter your phone number", text: $phoneNumber)
-            .textFieldStyle(.roundedBorder)
-            .keyboardType(.numberPad)
-            .focused($numberIsFocused)
-        
-        Button("Submit") {
-            numberIsFocused = false
+        VStack {
+            TextField("First name", text: $firstName)
+                .focused($focusedField, equals: .firstName)
+                .textContentType(.givenName)
+                .submitLabel(.next)
+            
+            TextField("Last name", text: $lastName)
+                .focused($focusedField, equals: .lastName)
+                .textContentType(.familyName)
+                .submitLabel(.done)
+            
         }
+        .onSubmit {
+            switch focusedField {
+            case .firstName:
+                focusedField = .lastName    // Transfer focus to the last name field
+            default:
+                focusedField = nil  // All done, so go to no field next, and hide the keyboard
+            }
+        }
+
     }
     
 }
