@@ -9,22 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var numbers = [String]()
+    @State private var search = ""
     
     var body: some View {
-        List(0..<numbers.count, id: \.self) { i in
-            Text(numbers[i])
-        }
-        .task(rollDice)
-        .refreshable {
-            rollDice()
+        NavigationView {
+            Text(search)
+                .searchable(text: $search, prompt: "Filter results")
+                .navigationTitle("Search example")
         }
     }
     
-    func rollDice() {
-        let result = Int.random(in: 1...6)
-        numbers.append(String(result))
-    }
 }
 
 struct ContentView_Previews: PreviewProvider {
