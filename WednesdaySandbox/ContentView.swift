@@ -21,34 +21,47 @@ struct ContentView: View {
     @FocusState private var focusedField: Field?
 
     var body: some View {
-        VStack {
-            TextField("First name", text: $firstName)
-                .focused($focusedField, equals: .firstName)
-                .textContentType(.givenName)
-                .submitLabel(.next)
+        
+        TabView {
             
-            TextField("Last name", text: $lastName)
-                .focused($focusedField, equals: .lastName)
-                .textContentType(.familyName)
-                .submitLabel(.done)
-            
-        }
-        .onSubmit {
-            switch focusedField {
-            case .firstName:
-                focusedField = .lastName    // Transfer focus to the last name field
-            default:
-                focusedField = nil  // All done, so go to no field next, and hide the keyboard
+            NavigationView {
+                VStack {
+                    TextField("First name", text: $firstName)
+                        .focused($focusedField, equals: .firstName)
+                        .textContentType(.givenName)
+                        .submitLabel(.next)
+                    
+                    TextField("Last name", text: $lastName)
+                        .focused($focusedField, equals: .lastName)
+                        .textContentType(.familyName)
+                        .submitLabel(.done)
+                    
+                }
+                .onSubmit {
+                    switch focusedField {
+                    case .firstName:
+                        focusedField = .lastName    // Transfer focus to the last name field
+                    default:
+                        focusedField = nil  // All done, so go to no field next, and hide the keyboard
+                    }
+                }
+                .task {
+                    print("hello")
+                    focusedField = .firstName
+                }
+                // Dismiss the keyboard when something else is tapped
+                .onTapGesture {
+                    focusedField = nil
+                }
+                
             }
+            .tabItem {
+                Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                Text("Names")
+            }
+            
         }
-        .task {
-            print("hello")
-            focusedField = .firstName
-        }
-        // Dismiss the keyboard when something else is tapped
-        .onTapGesture {
-            focusedField = nil
-        }
+        
 
     }
     
