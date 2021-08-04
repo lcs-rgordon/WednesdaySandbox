@@ -41,6 +41,14 @@ struct ContentView: View {
                 focusedField = nil  // All done, so go to no field next, and hide the keyboard
             }
         }
+        .task {
+            print("hello")
+            focusedField = .firstName
+        }
+        // Dismiss the keyboard when something else is tapped
+        .onTapGesture {
+            focusedField = nil
+        }
 
     }
     
