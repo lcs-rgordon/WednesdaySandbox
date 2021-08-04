@@ -10,12 +10,25 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var search = ""
+    let myData = ["actor", "class", "enum", "struct"]
+    
+    var filteredData: [String] {
+        if search.isEmpty {
+            return myData
+        } else {
+            return myData.filter({ item in
+                item.localizedCaseInsensitiveContains(search)
+            })
+        }
+    }
     
     var body: some View {
         NavigationView {
-            Text(search)
-                .searchable(text: $search, prompt: "Filter results")
-                .navigationTitle("Search example")
+            List(filteredData, id: \.self) { item in
+                Text(item)
+            }
+            .searchable(text: $search, prompt: "Filter results")
+            .navigationTitle("Search example")
         }
     }
     
