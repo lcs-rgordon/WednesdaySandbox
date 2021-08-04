@@ -9,38 +9,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var search = ""
-    let myData = ["actor", "class", "enum", "struct"]
-    
-    var filteredData: [String] {
-        if search.isEmpty {
-            return myData
-        } else {
-            return myData.filter({ item in
-                item.localizedCaseInsensitiveContains(search)
-            })
-        }
-    }
-    
     var body: some View {
-        NavigationView {
-            List(filteredData, id: \.self) { item in
-                Text(item)
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        Button {
-                            print("\(item) is a favourite")
-                        } label: {
-                            Label("Favourite", systemImage: "star")
-                        }
-                        .tint(.mint)
-                    }
-            }
-            .searchable(text: $search, prompt: "Filter results") {
-                ForEach(filteredData, id: \.self) { item in
-                    Text("Select \(item)").searchCompletion(item) // .searchCompletion adds whatever you pass in when the user taps
-                }
-            }
-            .navigationTitle("Search example")
+        VStack {
+            Image(systemName: "square.stack.3d.up.fill")
+                .symbolRenderingMode(.hierarchical)
+                .font(.system(size: 120))
+            
+            Image(systemName: "person.3.fill")
+                .symbolRenderingMode(.hierarchical)
+                .font(.system(size: 120))
         }
     }
     
