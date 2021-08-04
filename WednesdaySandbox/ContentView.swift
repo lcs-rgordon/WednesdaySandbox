@@ -9,15 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var phoneNumber = ""
+    
+    @FocusState private var numberIsFocused: Bool
+    
     var body: some View {
-        VStack {
-            Image(systemName: "square.stack.3d.up.fill")
-                .symbolRenderingMode(.hierarchical)
-                .font(.system(size: 120))
-            
-            Image(systemName: "person.3.fill")
-                .symbolRenderingMode(.hierarchical)
-                .font(.system(size: 120))
+        TextField("Enter your phone number", text: $phoneNumber)
+            .textFieldStyle(.roundedBorder)
+            .keyboardType(.numberPad)
+            .focused($numberIsFocused)
+        
+        Button("Submit") {
+            numberIsFocused = false
         }
     }
     
