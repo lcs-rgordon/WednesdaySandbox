@@ -8,9 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var numbers = [String]()
+    
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        List(0..<numbers.count, id: \.self) { i in
+            Text(numbers[i])
+        }
+        .task(rollDice)
+        .refreshable {
+            rollDice()
+        }
+    }
+    
+    func rollDice() {
+        let result = Int.random(in: 1...6)
+        numbers.append(String(result))
     }
 }
 
